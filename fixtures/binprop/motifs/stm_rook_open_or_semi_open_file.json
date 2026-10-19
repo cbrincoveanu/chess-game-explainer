@@ -1,0 +1,7 @@
+{
+ "name": "stm_rook_open_or_semi_open_file",
+ "description": "Side to move has at least one rook on a file with no opponent pawns (open or semi-open file).",
+ "source": "MOTIF_NAME = 'stm_rook_open_or_semi_open_file'\nMOTIF_DESCRIPTION = 'Side to move has at least one rook on a file with no opponent pawns (open or semi-open file).'\n\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    for rook_sq in board.pieces(chess.ROOK, stm):\n        rook_file = chess.square_file(rook_sq)\n        opp_has_pawn = False\n        for pawn_sq in board.pieces(chess.PAWN, opp):\n            if chess.square_file(pawn_sq) == rook_file:\n                opp_has_pawn = True\n                break\n        if not opp_has_pawn:\n            return True\n    return False",
+ "delta": 0.09788999999999998,
+ "library": "chess/qwen3.5-397b-a17b"
+}

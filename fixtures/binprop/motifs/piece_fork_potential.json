@@ -1,0 +1,7 @@
+{
+ "name": "piece_fork_potential",
+ "description": "Side to move has a piece attacking two or more opponent pieces.",
+ "source": "import chess\n\nMOTIF_NAME = 'piece_fork_potential'\nMOTIF_DESCRIPTION = 'Side to move has a piece attacking two or more opponent pieces.'\n\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    piece_types = [chess.PAWN, chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN]\n    \n    for piece_type in piece_types:\n        for sq in board.pieces(piece_type, stm):\n            attacks = board.attacks(sq)\n            count = 0\n            for attack_sq in attacks:\n                piece = board.piece_at(attack_sq)\n                if piece and piece.color == opp:\n                    count += 1\n            if count >= 2:\n                return True\n    \n    return False",
+ "delta": 0.015650000000000053,
+ "library": "chess/qwen3.5-397b-a17b"
+}

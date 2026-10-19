@@ -1,0 +1,7 @@
+{
+ "name": "opponent_knight_on_rim",
+ "description": "Opponent has at least one knight on the edge of the board (a-file, h-file, 1st rank, or 8th rank).",
+ "source": "MOTIF_NAME = 'opponent_knight_on_rim'\nMOTIF_DESCRIPTION = 'Opponent has at least one knight on the edge of the board (a-file, h-file, 1st rank, or 8th rank).'\n\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    for sq in board.pieces(chess.KNIGHT, opp):\n        if chess.square_file(sq) in (0, 7) or chess.square_rank(sq) in (0, 7):\n            return True\n    return False",
+ "delta": 0.027569999999999983,
+ "library": "chess/qwen3.5-397b-a17b"
+}

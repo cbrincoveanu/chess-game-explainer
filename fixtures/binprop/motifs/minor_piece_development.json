@@ -1,0 +1,7 @@
+{
+ "name": "minor_piece_development",
+ "description": "Side to move has at least 3 of 4 minor pieces developed off starting squares.",
+ "source": "MOTIF_NAME = 'minor_piece_development'\nMOTIF_DESCRIPTION = 'Side to move has at least 3 of 4 minor pieces developed off starting squares.'\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    if stm:\n        starting_squares = {chess.B1, chess.G1, chess.C1, chess.F1}\n    else:\n        starting_squares = {chess.B8, chess.G8, chess.C8, chess.F8}\n    developed = 0\n    for piece_type in [chess.KNIGHT, chess.BISHOP]:\n        for sq in board.pieces(piece_type, stm):\n            if sq not in starting_squares:\n                developed += 1\n    return developed >= 3",
+ "delta": 0.03816,
+ "library": "chess/qwen3.5-397b-a17b"
+}

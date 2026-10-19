@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Game Explainer</title>
+    <style>
+      :root {
+        --bg: #f6f8fa;
+        --panel: #ffffff;
+        --border: #d0d7de;
+        --text: #1f2328;
+        --muted: #656d76;
+        --accent: #1976d2;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        font-family: system-ui, sans-serif;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+      h1 {
+        font-size: 1.2rem;
+        margin: 1rem 1.2rem 0;
+      }
+      .sub {
+        margin: 0.2rem 1.2rem 0;
+        color: var(--muted);
+        font-size: 0.85rem;
+      }
+      main {
+        display: grid;
+        grid-template-columns: minmax(320px, 480px) minmax(320px, 1fr);
+        gap: 1rem;
+        padding: 1rem 1.2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      @media (max-width: 800px) {
+        main {
+          grid-template-columns: 1fr;
+        }
+      }
+      section.panel {
+        background: var(--panel);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.8rem;
+      }
+      #board {
+        width: 100%;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+      /* Let the board own touch gestures: no page panning while dragging. */
+      #board svg {
+        touch-action: none;
+      }
+      .nav {
+        display: flex;
+        gap: 0.3rem;
+        align-items: center;
+        justify-content: center;
+        margin: 0.6rem 0 0;
+        flex-wrap: wrap;
+      }
+      select,
+      button,
+      textarea,
+      input {
+        font: inherit;
+        padding: 0.25rem 0.6rem;
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        background: var(--panel);
+      }
+      button {
+        cursor: pointer;
+      }
+      #status {
+        color: var(--muted);
+        font-size: 0.85rem;
+        flex: 1;
+        text-align: right;
+      }
+      #eval {
+        font-variant-numeric: tabular-nums;
+        font-size: 0.85rem;
+      }
+      #readout {
+        display: flex;
+        gap: 0.6rem;
+        align-items: baseline;
+        flex-wrap: wrap;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+      #explanation {
+        margin-top: 0.8rem;
+        font-size: 0.88rem;
+        line-height: 1.35;
+      }
+      #explanation h4 {
+        margin: 0 0 0.3rem;
+      }
+      #explanation ul {
+        margin: 0.3rem 0;
+        padding-left: 1.2rem;
+      }
+      #explanation li {
+        margin-bottom: 0.45rem;
+      }
+      .motif-weak {
+        opacity: 0.75;
+      }
+      .motif-fact {
+        margin-top: 0.15rem;
+        padding-left: 0.4rem;
+        border-left: 2px solid #cfe3f5;
+        color: #35618a;
+        font-size: 0.78rem;
+      }
+      .eval-line {
+        color: var(--muted);
+        margin: 0.1rem 0 0.4rem;
+      }
+      ul.move-effects {
+        margin: 0.1rem 0 0.4rem;
+        padding-left: 1.1rem;
+      }
+      ul.move-effects li {
+        margin-bottom: 0.15rem;
+      }
+      .note {
+        color: var(--muted);
+        font-size: 0.8rem;
+        font-style: italic;
+      }
+      .loading {
+        color: var(--muted);
+        font-style: italic;
+      }
+      .io {
+        max-width: 1200px;
+        margin: 0.4rem auto;
+        padding: 0 1.2rem;
+      }
+      .io-head {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.3rem;
+      }
+      .io-head strong {
+        font-size: 0.9rem;
+      }
+      .io-hint {
+        color: var(--muted);
+        font-size: 0.78rem;
+        flex: 1;
+      }
+      textarea#pgn,
+      input#fen {
+        width: 100%;
+        font-family: monospace;
+        font-size: 0.8rem;
+      }
+      textarea#pgn {
+        height: 6.5rem;
+      }
+      footer {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.2rem 1rem;
+        color: var(--muted);
+        font-size: 0.75rem;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Chess Game Explainer</h1>
+    <p class="sub">
+      Drag pieces to explore. Every move you look at is evaluated and explained
+      with chess motifs — the engine line is hypothetical, what happened is on
+      the board.
+    </p>
+
+    <main>
+      <section class="panel" id="board-side">
+        <div id="board"></div>
+        <div class="nav">
+          <button id="flip" title="Flip board">⇅</button>
+          <button id="first" title="Start of the game">|&lt;</button>
+          <button id="back" title="Back one move">&lt;</button>
+          <button id="forward" title="Forward one move">&gt;</button>
+          <button id="last" title="End of the current line">&gt;|</button>
+        </div>
+      </section>
+      <section class="panel" id="panel-side">
+        <div id="readout">
+          <span id="eval"></span>
+          <span id="status"></span>
+        </div>
+        <div id="explanation"></div>
+      </section>
+    </main>
+
+    <div class="io">
+      <section class="panel">
+        <div class="io-head">
+          <strong>PGN</strong>
+          <span class="io-hint">auto-builds while you play (variations included)</span>
+          <button id="pgn-clear">Clear</button>
+          <button id="pgn-load">Load</button>
+          <button id="pgn-copy">Copy</button>
+        </div>
+        <textarea id="pgn" spellcheck="false"></textarea>
+      </section>
+    </div>
+
+    <div class="io">
+      <section class="panel">
+        <div class="io-head">
+          <strong>FEN</strong>
+          <span class="io-hint">current position</span>
+          <button id="fen-load">Load</button>
+          <button id="fen-copy">Copy</button>
+        </div>
+        <input id="fen" spellcheck="false" />
+      </section>
+    </div>
+
+    <footer>
+      Move explanations use chess motifs following the
+      <a href="https://www.explainthatmove.com/" target="_blank" rel="noreferrer">BinProp</a>
+      method (Press &amp; Golubev). Analysis runs entirely in your browser with
+      <a href="https://stockfishchess.org/" target="_blank" rel="noreferrer">Stockfish</a>.
+    </footer>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

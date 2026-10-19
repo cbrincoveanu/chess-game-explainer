@@ -1,0 +1,7 @@
+{
+ "name": "stm_minority_pawn_majority_lever",
+ "description": "The side to move has more pawns than the opponent on either the same-file center pair (d+e files) or on both wings combined (a-c plus f-h files), with total pawn count at least equal, indicating a lever-ready structural edge.",
+ "source": "MOTIF_NAME = 'stm_minority_pawn_majority_lever'\nMOTIF_DESCRIPTION = 'The side to move has more pawns than the opponent on either the same-file center pair (d+e files) or on both wings combined (a-c plus f-h files), with total pawn count at least equal, indicating a lever-ready structural edge.'\ndef motif(fen: str) -> bool:\n    import chess\n    b = chess.Board(fen)\n    stm = b.turn\n    opp = not b.turn\n    def pawns_on_files(color, files):\n        n = 0\n        for f in files:\n            n += len([sq for sq in b.pieces(chess.PAWN, color) if chess.square_file(sq) == f])\n        return n\n    stm_total = len(b.pieces(chess.PAWN, stm))\n    opp_total = len(b.pieces(chess.PAWN, opp))\n    if stm_total < opp_total:\n        return False\n    center_stm = pawns_on_files(stm, [3, 4])\n    center_opp = pawns_on_files(opp, [3, 4])\n    if center_stm > center_opp and center_opp <= 2:\n        return True\n    wing_stm = pawns_on_files(stm, [0, 1, 2, 5, 6, 7])\n    wing_opp = pawns_on_files(opp, [0, 1, 2, 5, 6, 7])\n    if wing_stm > wing_opp and stm_total > opp_total:\n        return True\n    return False",
+ "delta": 0.34551,
+ "library": "chess/glm-5.2"
+}

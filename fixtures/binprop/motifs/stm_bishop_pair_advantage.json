@@ -1,0 +1,7 @@
+{
+ "name": "stm_bishop_pair_advantage",
+ "description": "The side to move has the bishop pair while the opponent has at most one bishop.",
+ "source": "import chess\n\nMOTIF_NAME = 'stm_bishop_pair_advantage'\nMOTIF_DESCRIPTION = \"The side to move has the bishop pair while the opponent has at most one bishop.\"\n\ndef motif(fen: str) -> bool:\n    b = chess.Board(fen)\n    stm = b.turn\n    opp = not stm\n    return len(b.pieces(chess.BISHOP, stm)) >= 2 and len(b.pieces(chess.BISHOP, opp)) <= 1",
+ "delta": 0.026099999999999984,
+ "library": "chess/glm-5.2"
+}

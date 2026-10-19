@@ -1,0 +1,7 @@
+{
+ "name": "piece_in_enemy_territory",
+ "description": "Side to move has at least one piece positioned on the opponent half of the board (ranks 4-7 for White, ranks 0-3 for Black).",
+ "source": "MOTIF_NAME = 'piece_in_enemy_territory'\nMOTIF_DESCRIPTION = 'Side to move has at least one piece positioned on the opponent half of the board (ranks 4-7 for White, ranks 0-3 for Black).'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    for piece_type in [chess.KNIGHT, chess.BISHOP, chess.ROOK, chess.QUEEN, chess.KING]:\n        for sq in board.pieces(piece_type, stm):\n            rank = chess.square_rank(sq)\n            if stm:\n                if rank >= 4:\n                    return True\n            else:\n                if rank <= 3:\n                    return True\n    return False",
+ "delta": 0.08950999999999998,
+ "library": "chess/qwen3.5-397b-a17b"
+}

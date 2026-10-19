@@ -1,0 +1,7 @@
+{
+ "name": "rook_invading_opponent_territory",
+ "description": "The side to move has a rook on the opponent side of the board while the opponent has no rook on the side-to-move side.",
+ "source": "MOTIF_NAME = 'rook_invading_opponent_territory'\nMOTIF_DESCRIPTION = 'The side to move has a rook on the opponent side of the board while the opponent has no rook on the side-to-move side.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    stm_rooks = board.pieces(chess.ROOK, stm)\n    opp_rooks = board.pieces(chess.ROOK, opp)\n    \n    def on_opponent_half(sq, color):\n        rank = chess.square_rank(sq)\n        return (color == chess.WHITE and rank >= 4) or (color == chess.BLACK and rank <= 3)\n    \n    stm_has = any(on_opponent_half(sq, stm) for sq in stm_rooks)\n    opp_has = any(on_opponent_half(sq, opp) for sq in opp_rooks)\n    \n    return stm_has and not opp_has",
+ "delta": 0.01599,
+ "library": "chess/deepseek-v4-pro"
+}

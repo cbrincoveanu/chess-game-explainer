@@ -1,0 +1,7 @@
+{
+ "name": "center_control",
+ "description": "Side to move attacks more center squares (d4, d5, e4, e5) than the opponent.",
+ "source": "import chess\n\nMOTIF_NAME = 'center_control'\nMOTIF_DESCRIPTION = 'Side to move attacks more center squares (d4, d5, e4, e5) than the opponent.'\n\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    # Center squares: d4(27), e4(28), d5(35), e5(36)\n    center = [27, 28, 35, 36]\n    stm_count = 0\n    opp_count = 0\n    for sq in center:\n        stm_count += len(board.attackers(stm, sq))\n        opp_count += len(board.attackers(opp, sq))\n    return stm_count > opp_count",
+ "delta": 0.11556,
+ "library": "chess/qwen3.5-397b-a17b"
+}

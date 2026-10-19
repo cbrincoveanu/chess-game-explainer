@@ -1,0 +1,7 @@
+{
+ "name": "stm_fewer_pawn_islands",
+ "description": "Side to move has fewer pawn islands than the opponent, indicating better pawn structure.",
+ "source": "MOTIF_NAME = 'stm_fewer_pawn_islands'\nMOTIF_DESCRIPTION = 'Side to move has fewer pawn islands than the opponent, indicating better pawn structure.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    def count_islands(color):\n        files = [False] * 8\n        for sq in board.pieces(chess.PAWN, color):\n            files[chess.square_file(sq)] = True\n        count = 0\n        for i in range(8):\n            if files[i] and (i == 0 or not files[i-1]):\n                count += 1\n        return count\n\n    return count_islands(stm) < count_islands(opp)",
+ "delta": 0.15251000000000003,
+ "library": "chess/qwen3.5-397b-a17b"
+}

@@ -1,0 +1,7 @@
+{
+ "name": "opponent_king_exposure",
+ "description": "Side to move is winning because the opponent king is exposed or lacks a pawn shield.",
+ "source": "MOTIF_NAME = 'opponent_king_exposure'\nMOTIF_DESCRIPTION = 'Side to move is winning because the opponent king is exposed or lacks a pawn shield.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    opp_king_sq = board.king(opp)\n    if opp_king_sq is None:\n        return False\n    rank = chess.square_rank(opp_king_sq)\n    file = chess.square_file(opp_king_sq)\n    is_back = (rank == 0 and opp == chess.WHITE) or (rank == 7 and opp == chess.BLACK)\n    if not is_back:\n        return True\n    front_rank = 1 if opp == chess.WHITE else 6\n    count = 0\n    for f in [file - 1, file, file + 1]:\n        if 0 <= f <= 7:\n            sq = chess.square(f, front_rank)\n            piece = board.piece_at(sq)\n            if piece and piece.color == opp and piece.piece_type == chess.PAWN:\n                count += 1\n    return count < 2",
+ "delta": 0.09400000000000003,
+ "library": "chess/qwen3.5-397b-a17b"
+}

@@ -1,0 +1,7 @@
+{
+ "name": "central_advanced_pawn",
+ "description": "Side to move has a pawn on the 5th rank or further on a central file (C, D, E, or F).",
+ "source": "MOTIF_NAME = 'central_advanced_pawn'\nMOTIF_DESCRIPTION = 'Side to move has a pawn on the 5th rank or further on a central file (C, D, E, or F).'\n\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    central_files = {2, 3, 4, 5}  # C, D, E, F\n    \n    for sq in board.pieces(chess.PAWN, stm):\n        file = chess.square_file(sq)\n        rank = chess.square_rank(sq)\n        \n        if file in central_files:\n            if stm == chess.WHITE:\n                if rank >= 4:  # 5th rank or further\n                    return True\n            else:\n                if rank <= 3:  # 5th rank or further for black\n                    return True\n    return False",
+ "delta": 0.06631000000000001,
+ "library": "chess/qwen3.5-397b-a17b"
+}

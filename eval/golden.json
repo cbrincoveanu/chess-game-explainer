@@ -1,0 +1,262 @@
+{
+  "comment": "Golden annotation corpus: positions with undisputed good annotations. Not a unit test \u2014 the runner prints generated explanations for human/LLM review against the reference points.",
+  "cases": [
+    {
+      "id": "opening-1d4-d5",
+      "before": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+      "played": "d7d5",
+      "san": "d5",
+      "color": "b",
+      "reference": "1...d5 stakes a pawn in the center, blocking White's d-pawn from advancing further. It fights for the central squares (in particular it stops d4-d5 gaining space) and opens lines for the c8-bishop and the d8-queen. Symmetry is maintained; Black is fully fine here.",
+      "must": [
+        "center/central control",
+        "blocking/stopping White's d-pawn"
+      ],
+      "mustNot": [
+        "claiming d5 is clearly/undeniably best",
+        "comparing only against Nf6 as if that were the sole rival"
+      ]
+    },
+    {
+      "id": "opening-1e4-e5",
+      "before": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "played": "e7e5",
+      "san": "e5",
+      "color": "b",
+      "reference": "1...e5 claims the central square e5 (paired with White's e4) and opens lines for both the f8-bishop and the king. It is the classical, solid reply, though several others (e6, c5, e6/c6 setups) are comparable in quality.",
+      "must": [
+        "central control/occupying the center"
+      ],
+      "mustNot": [
+        "claiming e5 is clearly best over all reasonable alternatives"
+      ]
+    },
+    {
+      "id": "opera-9-b5",
+      "before": "r1b2k1r/ppp2ppp/2p5/4P3/2B1P3/5N2/PPP2PPP/RNBQ1RK1 b kq - 0 9",
+      "played": "b7b5",
+      "san": "b5",
+      "color": "b",
+      "reference": "9...b5?? chases the bishop but fatally weakens the diagonal of the b5-square and, much worse, drops the c6-pawn's support: after 10.Nxb5! cxb5 11.Bxb5+ Black's king gets exposed and the knight on b5 dominates. The engine shows White winning material and the attack. Black should keep things closed with 9...Qb6 or similar, though the position was already difficult.",
+      "must": [
+        "material loss / c6 or b5 becoming weak",
+        "king exposure or attack after Nxb5"
+      ],
+      "mustNot": []
+    },
+    {
+      "id": "opera-10-nxb5",
+      "before": "rn2kb1r/p3qppp/2p2n2/1p2p1B1/2B1P3/1QN5/PPP2PPP/R3K2R w KQkq - 0 10",
+      "played": "c3b5",
+      "san": "Nxb5",
+      "color": "w",
+      "reference": "10.Nxb5! is the classic way to punish 9...b5: the knight lands on the weakened b5-square, supported by the bishop, gaining material and a huge lead in development for the attack. A much better plan than 10.Bxb5+, which would trade off the strong bishop.",
+      "must": [
+        "b5-outpost for the knight",
+        "material gain (c6 pawn) / initiative"
+      ],
+      "mustNot": [
+        "calling it a mere 'good move' with no concrete reason"
+      ]
+    },
+    {
+      "id": "scholars-mate-refuted",
+      "before": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "played": "d8h4",
+      "san": "Qh4",
+      "color": "b",
+      "reference": "3...Qh4 offers a bad queen trade: White replies 4.Qxf7+! Qxf7 5.Bxf7+ Kxf7 and White has won queen for queen... no \u2014 that trades queens via a fork. Simply: White plays 4.Qxe5+! winning a pawn with check and a dominating position (Nd4 ideas). Black should have played 3...g6 or kept developing.",
+      "must": [
+        "bad trade / White wins material with check",
+        "queen trade favoring White or Qxe5 winning a pawn"
+      ],
+      "mustNot": [
+        "praising Qh4"
+      ]
+    },
+    {
+      "id": "hanging-piece-blunder",
+      "before": "rnbqkb1r/pppppppp/5n2/4P3/8/8/PPPP1PPP/RNBQKBNR w KQkq - 0 3",
+      "played": "f1c4",
+      "san": "Bc4",
+      "color": "w",
+      "reference": "3.Bc4?? develops the bishop to a fine square \u2014 but the e5-pawn? No: the point is that after 1.e4 Nf6?! 2.e5 the knight moved... Careful, in THIS position White to move already has a pawn on e5 attacked by the f6-knight. 3.Bc4 ignores the threat and simply loses the e5-pawn to 3...Nxe5. The right move was 3.d4 or 3.Nc3 defending/ignoring correctly. So: Bc4 drops a central pawn for nothing.",
+      "must": [
+        "hanging/losing the e5-pawn",
+        "ignoring the threat"
+      ],
+      "mustNot": [
+        "praising Bc4 as a good developing move"
+      ]
+    },
+    {
+      "id": "mate-in-one",
+      "before": "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
+      "played": "h5f7",
+      "san": "Qxf7#",
+      "color": "w",
+      "reference": "Qxf7# is checkmate: the queen is supported by the c4-bishop, the f7-pawn falls with the king unable to escape. Game over.",
+      "must": [
+        "ends the game / checkmate"
+      ],
+      "mustNot": [
+        "claiming material motifs or long-term advantages"
+      ]
+    },
+    {
+      "id": "rook-endgame-lucena",
+      "before": "1K1k4/1P6/8/8/8/8/r7/2R5 w - - 0 1",
+      "played": "c1c8",
+      "san": "Rc8+",
+      "color": "w",
+      "reference": "Rc8+! starts the Lucena-style procedure: the rook cuts the black king away from the b-pawn's path. After ...Kd7 Rd8+ White wins the tempo needed for promotion with rook support. The natural winning attempt; alternatives like Rc7 also keep a large edge but Rc8 is the cleanest.",
+      "must": [
+        "cutting off / driving away the enemy king",
+        "supporting the passed b-pawn"
+      ],
+      "mustNot": [
+        "claiming a clear material or mating attack"
+      ]
+    },
+    {
+      "id": "quiet-developing-move",
+      "before": "r1bq1rk1/ppp2ppp/2n5/3p4/3P4/2N2N2/PPP2PPP/R1BQ1RK1 w - - 0 9",
+      "played": "c1e3",
+      "san": "Be3",
+      "color": "w",
+      "reference": "9.Be3 is a normal developing move: it connects the rooks (after castling they'd already be connected, so this is about completing development), puts the bishop on a useful diagonal eyeing the d4/c1 squares, and keeps options open. Not dramatic \u2014 just a healthy developing move.",
+      "must": [
+        "development / completing development or bishop activity"
+      ],
+      "mustNot": [
+        "overclaiming: 'clearly best', 'winning', tactical threats"
+      ]
+    },
+    {
+      "id": "bad-bishop-endgame",
+      "before": "4k3/pp3ppp/8/2p5/2P5/8/PP3PPP/4KB2 w - - 0 1",
+      "played": "f1e2",
+      "san": "Be2",
+      "color": "w",
+      "reference": "Be2?! places the bishop behind its own pawns on the same color complex \u2014 a classic 'bad bishop' setup. White's bishop will have trouble finding active squares since its own pawns (c4, e-pawns) sit on light squares. Better was f1-e2? Actually here the bishop was already bad; a better plan is f4 or trading pawns. A quiet move that doesn't fix the structural issue.",
+      "must": [],
+      "mustNot": [
+        "praising the move as good/active"
+      ]
+    },
+    {
+      "id": "session-fork-e4plus",
+      "before": "2r1k2r/pp1bn1pp/1q3p2/3pp3/PP5P/2PK1N2/5bP1/R1BQ1N1R b k - 1 15",
+      "played": "e5e4",
+      "san": "e4+",
+      "color": "b",
+      "reference": "16...e4+ is a strong move because the pawn forks the white king on d3 and the knight on f3: White must respond to the check while the f3-knight hangs. White also loses the right to castle having already... in short, a family fork that wins at least the knight or forces major concessions.",
+      "must": [
+        "fork of the king and the knight",
+        "check"
+      ],
+      "mustNot": [
+        "praising some vague positional motif instead of the fork"
+      ]
+    },
+    {
+      "id": "session-refuted-nbd2",
+      "before": "r3k1nr/pp1b1ppp/1qn1p3/2bpP3/8/2PB1N2/PP3PPP/RNBQK2R w KQkq - 0 8",
+      "played": "b1d2",
+      "san": "Nbd2",
+      "color": "w",
+      "reference": "8.Nbd2?? allows 8...Bxf2+! winning a pawn with check (and after 9.Ke2 ... White loses castling rights and the e5-pawn hangs too, in the game Black won material). White should keep the f2-pawn defended or castle first.",
+      "must": [
+        "refutation: Bxf2+ winning material",
+        "White loses castling rights or the pawn"
+      ],
+      "mustNot": [
+        "praising Nbd2 as developing"
+      ]
+    },
+    {
+      "id": "session-punish-bxf2",
+      "before": "r3k1nr/pp1b1ppp/1qn1p3/2bpP3/8/2PB1N2/PP1N1PPP/R1BQK2R b KQkq - 1 8",
+      "played": "c5f2",
+      "san": "Bxf2+",
+      "color": "b",
+      "reference": "8...Bxf2+ wins the f2-pawn with check, exploiting the knight's departure from f3. The check means White cannot castle (Kxf2 is met by ...Qxb2 or ...Nxe5 ideas). A clean material-winning punishment.",
+      "must": [
+        "gives check",
+        "takes/wins the f2 pawn"
+      ],
+      "mustNot": []
+    },
+    {
+      "id": "session-quiet-h3",
+      "before": "r3k1nr/pp1b2pp/1q2pp2/3pn3/1P6/2PB1N2/P2NKbPP/R1BQ3R w kq - 0 11",
+      "played": "h2h3",
+      "san": "h3",
+      "color": "w",
+      "reference": "11.h3 is a quiet move: it gives the king some air and takes a useful luft square, possibly preparing g4 or just preventing ...Bg3-ish tricks. Nothing dramatic; a solid prophylactic move.",
+      "must": [
+        "quiet/prophylactic character (luft, king air)"
+      ],
+      "mustNot": [
+        "overclaiming tactics or big advantages"
+      ]
+    },
+    {
+      "id": "session-space-e5",
+      "before": "2r1k2r/pp1bn1pp/1q2pp2/3p4/PP5P/2PK1N2/3N1bP1/R1BQ3R b k - 0 14",
+      "played": "e6e5",
+      "san": "e5",
+      "color": "b",
+      "reference": "14...e5 stakes a pawn in the center, gaining space and freeing the dark squares for Black; it challenges White's grip. Solid and natural.",
+      "must": [
+        "center/space gain"
+      ],
+      "mustNot": []
+    },
+    {
+      "id": "endgame-pin-bf6",
+      "before": "K7/8/6P1/8/3r3B/8/1k6/8 w - - 0 1",
+      "played": "h4f6",
+      "san": "Bf6",
+      "color": "w",
+      "reference": "Bf6! is the only winning move: the bishop lands on the f6-d4-b2 diagonal, pinning the black rook to the king. The rook cannot move away (it would expose the king), so White wins it next move (Bxd4) and then promotes the g-pawn. All other moves let the advantage slip (e.g.Bg3 allows ...Rd4 activity).",
+      "must": [
+        "pin of the rook on d4 to the king",
+        "winning the rook / material gain",
+        "g-pawn promotion as the follow-up plan"
+      ],
+      "mustNot": [
+        "missing the pin and describing vague activity"
+      ]
+    },
+    {
+      "id": "gf-test-16e5",
+      "before": "r2q1rk1/p3npbp/1p2p1p1/2n5/2PN4/4B2P/PPQ2PP1/1N1R1RK1 b - - 2 16",
+      "played": "e6e5",
+      "san": "e5",
+      "color": "b",
+      "reference": "16...e5?? loses to 17.Ne6!: the knight forks the queen on d8 and the rook on f8, and \u2014 because the knight leaves the d-file \u2014 uncovers Rd1's attack on the queen (discovered attack). Black loses material with no compensation. Instead 16...Qc7 or similar keeps the balance.",
+      "must": [
+        "fork of the queen on d8 and the rook on f8",
+        "discovered attack Rd1 -> queen on d8",
+        "White answers Ne6"
+      ],
+      "mustNot": [
+        "only positional noise without mentioning the Ne6 refutation"
+      ]
+    },
+    {
+      "id": "gf-test-17-ne2",
+      "before": "r2q1rk1/p3npbp/1p4p1/2n1p3/2PN4/4B2P/PPQ2PP1/1N1R1RK1 w - - 0 17",
+      "played": "d4e2",
+      "san": "Ne2",
+      "color": "w",
+      "reference": "17.Ne2?? misses 17.Ne6! forking queen and rook and unpinning/discovering the d1-rook's attack on the queen; instead 17...Ne6 hits back and White has lost the initiative (17...Qc7).",
+      "must": [
+        "Black answers Ne6 or Qc7",
+        "loses the initiative"
+      ],
+      "mustNot": []
+    }
+  ]
+}

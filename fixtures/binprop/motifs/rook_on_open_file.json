@@ -1,0 +1,7 @@
+{
+ "name": "rook_on_open_file",
+ "description": "The side to move has a rook on a file with no pawns of either color, while the opponent has no such rook.",
+ "source": "MOTIF_NAME = 'rook_on_open_file'\nMOTIF_DESCRIPTION = 'The side to move has a rook on a file with no pawns of either color, while the opponent has no such rook.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    def rook_on_open_file(color):\n        for rook_sq in board.pieces(chess.ROOK, color):\n            file_idx = chess.square_file(rook_sq)\n            has_pawn = False\n            for rank in range(8):\n                sq = chess.square(file_idx, rank)\n                p = board.piece_at(sq)\n                if p and p.piece_type == chess.PAWN:\n                    has_pawn = True\n                    break\n            if not has_pawn:\n                return True\n        return False\n    \n    stm_has = rook_on_open_file(stm)\n    opp_has = rook_on_open_file(opp)\n    \n    return stm_has and not opp_has",
+ "delta": 0.05783999999999999,
+ "library": "chess/deepseek-v4-pro"
+}

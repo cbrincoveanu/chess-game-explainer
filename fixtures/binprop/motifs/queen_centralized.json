@@ -1,0 +1,7 @@
+{
+ "name": "queen_centralized",
+ "description": "Side to move has queen on or attacking central squares d4, d5, e4, e5.",
+ "source": "import chess\n\nMOTIF_NAME = 'queen_centralized'\nMOTIF_DESCRIPTION = 'Side to move has queen on or attacking central squares d4, d5, e4, e5.'\n\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    \n    central_squares = [chess.square(3, 3), chess.square(3, 4), chess.square(4, 3), chess.square(4, 4)]\n    \n    queen_squares = list(board.pieces(chess.QUEEN, stm))\n    if not queen_squares:\n        return False\n    \n    for sq in queen_squares:\n        if sq in central_squares:\n            return True\n    \n    for sq in queen_squares:\n        attacks = board.attacks(sq)\n        for cs in central_squares:\n            if cs in attacks:\n                return True\n    \n    return False",
+ "delta": 0.03643999999999997,
+ "library": "chess/qwen3.5-397b-a17b"
+}

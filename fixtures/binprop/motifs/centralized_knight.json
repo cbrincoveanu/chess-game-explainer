@@ -1,0 +1,7 @@
+{
+ "name": "centralized_knight",
+ "description": "Side to move has a knight on one of the four central squares (d4, d5, e4, e5)",
+ "source": "MOTIF_NAME = 'centralized_knight'\nMOTIF_DESCRIPTION = 'Side to move has a knight on one of the four central squares (d4, d5, e4, e5)'\n\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    \n    central_squares = [chess.D4, chess.D5, chess.E4, chess.E5]\n    \n    for sq in board.pieces(chess.KNIGHT, stm):\n        if sq in central_squares:\n            return True\n    return False",
+ "delta": 0.022680000000000006,
+ "library": "chess/qwen3.5-397b-a17b"
+}

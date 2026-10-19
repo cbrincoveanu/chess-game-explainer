@@ -1,0 +1,7 @@
+{
+ "name": "mobility_advantage",
+ "description": "Side to move has more legal moves available than the opponent.",
+ "source": "import chess\n\nMOTIF_NAME = 'mobility_advantage'\nMOTIF_DESCRIPTION = 'Side to move has more legal moves available than the opponent.'\n\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    \n    stm_moves = len(list(board.legal_moves))\n    \n    board_copy = board.copy()\n    board_copy.turn = not stm\n    opp_moves = len(list(board_copy.legal_moves))\n    \n    return stm_moves > opp_moves",
+ "delta": 0.14665,
+ "library": "chess/qwen3.5-397b-a17b"
+}

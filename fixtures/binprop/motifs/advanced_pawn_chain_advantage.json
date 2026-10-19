@@ -1,0 +1,7 @@
+{
+ "name": "advanced_pawn_chain_advantage",
+ "description": "The side to move has more pawns on the fifth rank or beyond than the opponent, indicating superior space and advanced structure.",
+ "source": "MOTIF_NAME = 'advanced_pawn_chain_advantage'\nMOTIF_DESCRIPTION = 'The side to move has more pawns on the fifth rank or beyond than the opponent, indicating superior space and advanced structure.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    # Count advanced pawns for each side (rank 5+ for White, rank 4- for Black)\n    # For side to move: if White, advanced means rank >= 5 (index 4+); if Black, rank <= 4 (index 3-)\n    stm_advanced = 0\n    opp_advanced = 0\n    \n    for sq in chess.SQUARES:\n        piece = board.piece_at(sq)\n        if piece is None or piece.piece_type != chess.PAWN:\n            continue\n        rank = chess.square_rank(sq)\n        if piece.color == chess.WHITE:\n            if rank >= 4:  # rank 5 (index 4) or higher\n                if piece.color == stm:\n                    stm_advanced += 1\n                else:\n                    opp_advanced += 1\n        else:  # BLACK\n            if rank <= 3:  # rank 4 (index 3) or lower\n                if piece.color == stm:\n                    stm_advanced += 1\n                else:\n                    opp_advanced += 1\n    \n    return stm_advanced > opp_advanced",
+ "delta": 0.05836999999999998,
+ "library": "chess/deepseek-v4-pro"
+}

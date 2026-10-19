@@ -1,0 +1,7 @@
+{
+ "name": "king_safety_pawn_storm",
+ "description": "The side to move has more pawns on the wing where the opponent king is located than the opponent has on the side-to-move king wing, indicating a pawn storm advantage.",
+ "source": "MOTIF_NAME = 'king_safety_pawn_storm'\nMOTIF_DESCRIPTION = 'The side to move has more pawns on the wing where the opponent king is located than the opponent has on the side-to-move king wing, indicating a pawn storm advantage.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n    \n    opp_king_sq = board.king(opp)\n    if opp_king_sq is None:\n        return False\n    stm_king_sq = board.king(stm)\n    if stm_king_sq is None:\n        return False\n    \n    opp_kf = chess.square_file(opp_king_sq)\n    stm_kf = chess.square_file(stm_king_sq)\n    \n    def wing_pawns(color, king_file):\n        count = 0\n        for sq in board.pieces(chess.PAWN, color):\n            f = chess.square_file(sq)\n            r = chess.square_rank(sq)\n            if king_file <= 3:\n                if f <= 3:\n                    count += 1\n            else:\n                if f >= 4:\n                    count += 1\n        return count\n    \n    stm_storm = wing_pawns(stm, opp_kf)\n    opp_storm = wing_pawns(opp, stm_kf)\n    \n    return stm_storm > opp_storm",
+ "delta": 0.16791999999999999,
+ "library": "chess/deepseek-v4-pro"
+}

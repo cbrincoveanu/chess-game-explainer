@@ -1,0 +1,7 @@
+{
+ "name": "bishop_blocked_by_own_pawns",
+ "description": "The side to move has a bishop on the same color as its own pawns on that color's central squares, without the opponent having the same restriction.",
+ "source": "MOTIF_NAME = 'bishop_blocked_by_own_pawns'\nMOTIF_DESCRIPTION = 'The side to move has a bishop on the same color as its own pawns on that color\\'s central squares, without the opponent having the same restriction.'\ndef motif(fen: str) -> bool:\n    import chess\n    board = chess.Board(fen)\n    stm = board.turn\n    opp = not stm\n\n    CENTER_SQUARES = [chess.E4, chess.D4, chess.E5, chess.D5]\n\n    def count_blocked_bishop_squares(color):\n        count = 0\n        for sq in board.pieces(chess.BISHOP, color):\n            sq_color = (chess.square_file(sq) + chess.square_rank(sq)) % 2\n            for cs in CENTER_SQUARES:\n                if (chess.square_file(cs) + chess.square_rank(cs)) % 2 == sq_color:\n                    if board.piece_at(cs) and board.piece_at(cs).piece_type == chess.PAWN and board.piece_at(cs).color == color:\n                        count += 1\n                        break\n        return count\n\n    stm_blocked = count_blocked_bishop_squares(stm)\n    opp_blocked = count_blocked_bishop_squares(opp)\n    return stm_blocked > opp_blocked",
+ "delta": 0.04893,
+ "library": "chess/deepseek-v4-pro"
+}

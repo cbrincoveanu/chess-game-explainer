@@ -1,0 +1,7 @@
+{
+ "name": "stm_material_advantage_two_or_more",
+ "description": "The side to move has at least two points more total piece value (pawn=1, knight/bishop=3, rook=5, queen=9) than the opponent.",
+ "source": "MOTIF_NAME = 'stm_material_advantage_two_or_more'\nMOTIF_DESCRIPTION = 'The side to move has at least two points more total piece value (pawn=1, knight/bishop=3, rook=5, queen=9) than the opponent.'\nimport chess\n\ndef motif(fen: str) -> bool:\n    board = chess.Board(fen)\n    stm = board.turn\n    vals = {\n        chess.PAWN: 1,\n        chess.KNIGHT: 3,\n        chess.BISHOP: 3,\n        chess.ROOK: 5,\n        chess.QUEEN: 9,\n    }\n    s = 0\n    o = 0\n    for sq in chess.SQUARES:\n        p = board.piece_at(sq)\n        if p is None or p.piece_type == chess.KING:\n            continue\n        v = vals[p.piece_type]\n        if p.color == stm:\n            s += v\n        else:\n            o += v\n    return s - o >= 2",
+ "delta": 0.15300999999999998,
+ "library": "chess/glm-5.2"
+}
