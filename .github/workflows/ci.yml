@@ -30,6 +30,8 @@ jobs:
     permissions:
       pages: write
       id-token: write
+      # Needed to delete this run's stale deployment artifacts on re-runs.
+      actions: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -41,6 +43,20 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      # Re-run safety: failed attempts of this run may have left deployment
+      # artifacts behind, and deploy-pages@v refuses to pick between them.
+      # Delete any stale "github-pages" artifacts of this run before upload.
+      - name: Remove stale deployment artifacts
+        run: |
+          gh api --paginate \
+            "repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts" \
+            --jq '.artifacts[] | select(.name == "github-pages") | .id' \
+          | while read -r id; do
+              echo "deleting stale artifact $id"
+              gh api -X DELETE "repos/${{ github.repository }}/actions/artifacts/$id" || true
+            done
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
